@@ -1,0 +1,6 @@
+{
+    "version": 2,
+    "name": "thailandProject2025-backend",
+    "builds": [{ "src": "server.js", "use": "@vercel/node" }],
+    "routes": [{ "src": "/(.*)", "dest": "/server.js" }]
+}
