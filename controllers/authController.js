@@ -3,7 +3,7 @@ const { PrismaClient } = require('../generated/prisma')
 const prisma = new PrismaClient()
 
 exports.loginUser = async (req, res) => {
-  const { userEmail, userPassword } = req.body;
+  const { userEmail, userPassword } = req.params;
 
   try {
     const user = await prisma.user_tb.findUnique({
