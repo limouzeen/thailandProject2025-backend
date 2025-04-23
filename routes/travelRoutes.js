@@ -5,7 +5,7 @@ const {storage} = require('../cloudinary');
 
 
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage });
 router.post('/', upload.single('travelImage'), travelController.createTravel);
 
 
