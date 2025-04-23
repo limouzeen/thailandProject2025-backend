@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const travelController = require('../controllers/travelController');
-const { storage } = require('../cloudinary');
+const {storage} = require('../cloudinary');
 
 
 const multer = require('multer');
