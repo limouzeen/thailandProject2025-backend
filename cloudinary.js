@@ -1,6 +1,5 @@
-// cloudinary.js
 require('dotenv').config();
-const { v2: cloudinary } = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({
@@ -17,4 +16,4 @@ const storage = new CloudinaryStorage({
   },
 });
 
-module.exports = { cloudinary, storage }; // ✅ เปลี่ยนจาก export default
+module.exports = { cloudinary, storage };
