@@ -21,5 +21,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello from Back-end server!.." });
 });
 
-
-module.exports = app;
+//เทสโชว์
+app.listen(PORT, () => {
+    console.log("Server is running on port " + PORT + "...");
+});
+  
