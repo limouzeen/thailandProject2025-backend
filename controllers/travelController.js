@@ -68,7 +68,7 @@ exports.getTravelById = async (req, res) => {
   // ✅ สร้างโพสต์ใหม่
   exports.createTravel = async (req, res) => {
     const { userId, travelPlace, travelLocation } = req.body;
-    const travelImage = req.file ? req.file.filename : ''; // ใช้ชื่อไฟล์จาก multer
+    const travelImage = req.file ? req.file.path : '';
   
     try {
       const newTravel = await prisma.travel_tb.create({
@@ -90,16 +90,22 @@ exports.getTravelById = async (req, res) => {
   // ✅ แก้ไขโพสต์
   exports.updateTravel = async (req, res) => {
     const { travelId } = req.params;
-    const { travelPlace, travelLocation, travelImage } = req.body;
+    const { travelPlace, travelLocation } = req.body;
+    const travelImage = req.file ? req.file.path : undefined;
+  
+    const updateData = {
+      travelPlace,
+      travelLocation,
+    };
+  
+    if (travelImage) {
+      updateData.travelImage = travelImage;
+    }
   
     try {
       const updatedTravel = await prisma.travel_tb.update({
         where: { travelId: parseInt(travelId) },
-        data: {
-          travelPlace,
-          travelLocation,
-          travelImage,
-        }
+        data: updateData,
       });
       res.json(updatedTravel);
     } catch (err) {
@@ -107,6 +113,7 @@ exports.getTravelById = async (req, res) => {
       res.status(500).json({ message: "Failed to update travel" });
     }
   };
+  
   
   // ✅ ลบโพสต์
   exports.deleteTravel = async (req, res) => {
