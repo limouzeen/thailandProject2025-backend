@@ -218,7 +218,7 @@ exports.getTravelById = async (req, res) => {
     }
   };
 
-  // ✅ สร้างโพสต์ใหม่
+  // สร้างโพสต์ใหม่
   exports.createTravel = async (req, res) => {
     const { userId, travelPlace, travelLocation } = req.body;
     const travelImage = req.file ? req.file.path : '';
@@ -240,7 +240,7 @@ exports.getTravelById = async (req, res) => {
   };
   
   
-  // ✅ แก้ไขโพสต์
+  //  แก้ไขโพสต์
   exports.updateTravel = async (req, res) => {
     const { travelId } = req.params;
     const { travelPlace, travelLocation } = req.body;
@@ -268,7 +268,7 @@ exports.getTravelById = async (req, res) => {
   };
   
   
-  // ✅ ลบโพสต์
+  //  ลบโพสต์
   exports.deleteTravel = async (req, res) => {
     const { travelId } = req.params;
   
@@ -304,11 +304,11 @@ exports.getTravelById = async (req, res) => {
   
 
   exports.deleteComment = async (req, res) => {
-    const { commentId } = req.params;
+    const { commentId } = req.params; 
   
     try {
       const existing = await prisma.comment.findUnique({
-        where: { commentId: parseInt(commentId) }
+        where: { id: parseInt(commentId) } 
       });
   
       if (!existing) {
@@ -316,7 +316,7 @@ exports.getTravelById = async (req, res) => {
       }
   
       await prisma.comment.delete({
-        where: { commentId: parseInt(commentId) }
+        where: { id: parseInt(commentId) } 
       });
   
       res.status(200).json({ message: 'Comment deleted successfully' });
