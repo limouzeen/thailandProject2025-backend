@@ -5,22 +5,25 @@ const prisma = new PrismaClient()
 exports.loginUser = async (req, res) => {
   const { userEmail, userPassword } = req.body;
 
+  console.log("📥 loginUser called");
+  console.log("📩 userEmail:", userEmail);
+  console.log("🔒 userPassword:", userPassword);
+
   try {
     const user = await prisma.user_tb.findUnique({
-        where: { userEmail },
-      });
+      where: { userEmail },
+    });
 
-      if (!user) {
-        return res.status(401).json({ message: 'Email not found' });
-      }
+    console.log("👤 Found user:", user);
 
-    // เปรียบเทียบรหัสผ่าน (สมมุติใช้ plain-text ถ้ายังไม่ hash)
+    if (!user) {
+      return res.status(401).json({ message: 'Email not found' });
+    }
 
     if (user.userPassword !== userPassword) {
-        return res.status(401).json({ message: 'Incorrect password' });
-      }
+      return res.status(401).json({ message: 'Incorrect password' });
+    }
 
-    // ถ้าอยากส่ง JWT ตรงนี้สามารถเพิ่มได้
     res.json({
       message: 'Login successful',
       user: {
@@ -32,13 +35,11 @@ exports.loginUser = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Login failed' });
+    console.error("❌ Error during login:", err);
+    res.status(500).json({ message: 'Login failed', error: err.message });
   }
-
-
-  
 };
+
 
 const bcrypt = require('bcrypt');
 
