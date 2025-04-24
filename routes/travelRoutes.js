@@ -16,5 +16,7 @@ router.get('/:travelId', travelController.getTravelById);
 router.delete('/:travelId', travelController.deleteTravel);
 router.post('/:travelId/comments', travelController.createComment);
 router.delete('/comments/:commentId', travelController.deleteComment);
+router.put('/comments/:commentId', travelController.updateComment);
+
 
 module.exports = router;
