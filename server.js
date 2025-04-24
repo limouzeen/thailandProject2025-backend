@@ -9,26 +9,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+
+
 // CORS ที่ปลอดภัยและยืดหยุ่น
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     const allowedOrigins = ['https://thailand-project2025.vercel.app'];
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true
+// }));
 app.use(cors({
-  origin: function (origin, callback) {
-    const allowedOrigins = ['https://thailand-project2025.vercel.app'];
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: "https://thailand-project2025.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
   credentials: true
 }));
-
-
-app.use((err, req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://thailand-project2025.vercel.app');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.status(500).json({ message: err.message || 'Internal Server Error' });
-});
-
 
 
 app.use(express.json());
