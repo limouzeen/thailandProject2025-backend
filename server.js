@@ -12,17 +12,18 @@ const PORT = process.env.PORT || 3000;
 
 
 
+//  แนะนำให้ใส่ multer ก่อน middleware body parser
 app.use(cors({
-  origin: "https://thailand-project2025.vercel.app", 
+  origin: "https://thailand-project2025.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
   credentials: true
 }));
 
+// เพิ่ม limit ให้รองรับรูปใหญ่ขึ้น (เช่น 10MB)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 
 
