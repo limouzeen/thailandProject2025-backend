@@ -100,6 +100,7 @@ exports.registerUser = async (req, res) => {
   console.log("🔧 req.body:", req.body);
   console.log("🖼 Uploaded file info:", req.file);
 
+
   const { userName, userEmail, userPassword } = req.body;
   const userImage = req.file ? req.file.path : '';
 
