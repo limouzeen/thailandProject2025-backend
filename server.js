@@ -10,19 +10,6 @@ const PORT = process.env.PORT || 3000;
 
 
 
-
-// CORS ที่ปลอดภัยและยืดหยุ่น
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     const allowedOrigins = ['https://thailand-project2025.vercel.app'];
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true
-// }));
 app.use(cors({
   origin: "https://thailand-project2025.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -40,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoutes);
 app.use('/travels', travelRoutes);
-
+app.use('/images/travel', express.static('images/travel'))
 // Default Route
 app.get("/", (req, res) => {
   res.json({ message: "Hello from Back-end server!.." });
