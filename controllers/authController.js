@@ -41,8 +41,6 @@ exports.loginUser = async (req, res) => {
 };
 
 
-const bcrypt = require('bcrypt');
-
 exports.registerUser = async (req, res) => {
   console.log("🔥 Register process started");
 
