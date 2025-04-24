@@ -40,36 +40,44 @@ exports.loginUser = async (req, res) => {
   
 };
 
-
+const bcrypt = require('bcrypt');
 
 exports.registerUser = async (req, res) => {
-  const { userName, userEmail, userPassword } = req.body;
-  const userImage = req.file ? req.file.filename : '';
-
-  try {
-    const existingUser = await prisma.user_tb.findUnique({
-      where: { userEmail },
-    });
-
-    if (existingUser) {
-      return res.status(400).json({ message: 'Email already exists' });
+    const { userName, userEmail, userPassword } = req.body;
+    const userImage = req.file ? req.file.filename : ''; // ได้ชื่อไฟล์จาก multer
+  
+    try {
+      const existingUser = await prisma.user_tb.findUnique({
+        where: { userEmail: userEmail }, // ✅ ได้เมื่อ userEmail เป็น @unique
+      });
+  
+      if (existingUser) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+  
+      const newUser = await prisma.user_tb.create({
+        data: {
+          userName,
+          userEmail,
+          userPassword,
+          userImage,
+        },
+      });
+  
+      res.status(201).json({
+        message: 'User registered successfully',
+        user: {
+          userId: newUser.userId,
+          userName: newUser.userName,
+          userEmail: newUser.userEmail,
+          userImage: newUser.userImage,
+        },
+      });
+  
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Registration failed' });
     }
-
-    const newUser = await prisma.user_tb.create({
-      data: {
-        userName,
-        userEmail,
-        userPassword,
-        userImage,
-      },
-    });
-
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
-
-  } catch (err) {
-    console.error('🔴 Register Error:', err); // ✅ แทรก log
-    res.status(500).json({ message: 'Registration failed', error: err.message });
-  }
-};
-
+  };
+  
   
