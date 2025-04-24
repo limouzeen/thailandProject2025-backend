@@ -14,6 +14,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'images/travel',
     allowed_formats: ['jpg', 'png'],
+    resource_type: 'image'
   },
 });
 
