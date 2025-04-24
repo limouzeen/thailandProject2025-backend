@@ -9,13 +9,29 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+const cors = require('cors');
+
+// CORS ที่ปลอดภัยและยืดหยุ่น
+app.use(cors({
+  origin: function (origin, callback) {
+    const allowedOrigins = ['https://thailand-project2025.vercel.app'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+// เสริม header เองอีกชั้น (กันบางเคสไม่ยิง header)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://thailand-project2025.vercel.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
