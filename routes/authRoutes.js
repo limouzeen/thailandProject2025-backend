@@ -10,6 +10,7 @@ const upload = multer({ storage });
 
 router.post('/login', authController.loginUser);
 
-router.post('/register', upload.single('userImage'), authController.registerUser);
+
+router.post('/register', upload.single('userImage'), authController.registerUser)
 
 module.exports = router;
