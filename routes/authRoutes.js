@@ -8,7 +8,8 @@ const { storage } = require('../cloudinary'); // ไฟล์ cloudinary.js ท�
 const upload = multer({ storage });
 
 
-router.post('/login/:userEmail/:userPassword', authController.loginUser);
+router.post('/login', authController.loginUser);
+
 router.post('/register', upload.single('userImage'), authController.registerUser);
 
 module.exports = router;

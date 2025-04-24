@@ -12,6 +12,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors({
+  origin: "https://thailand-project2025.vercel.app/"
+}));
+
+
 // Routes
 app.use('/auth', authRoutes);
 app.use('/travels', travelRoutes);
