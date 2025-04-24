@@ -44,7 +44,7 @@ const bcrypt = require('bcrypt');
 
 exports.registerUser = async (req, res) => {
     const { userName, userEmail, userPassword } = req.body;
-    const userImage = req.file ? req.file.filename : ''; // ได้ชื่อไฟล์จาก multer
+    const userImage = req.file ? req.file.path : ''; 
   
     try {
       const existingUser = await prisma.user_tb.findUnique({
