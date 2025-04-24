@@ -8,16 +8,16 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+
+const cors = require('cors');
+app.use(cors({
+  origin: 'https://thailand-project2025.vercel.app',
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-app.use(cors({
-  origin: 'https://thailand-project2025.vercel.app',
-  credentials: true // เผื่อมี cookie/auth
-}));
 
 
 // Routes
