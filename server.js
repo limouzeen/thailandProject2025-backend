@@ -22,12 +22,11 @@ app.use(cors({
   credentials: true
 }));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://thailand-project2025.vercel.app");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  next();
+
+app.use((err, req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://thailand-project2025.vercel.app');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.status(500).json({ message: err.message || 'Internal Server Error' });
 });
 
 
@@ -38,6 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Routes
+
 app.use('/auth', authRoutes);
 app.use('/travels', travelRoutes);
 
@@ -53,27 +53,3 @@ app.listen(PORT, () => {
   
 
 
-// const express = require('express');
-// const app = express();
-// const cors = require('cors');
-// const authRoutes = require('./routes/authRoutes');
-// const travelRoutes = require('./routes/travelRoutes');
-
-// // ⭐ ใส่ middleware สำหรับ parse body
-
-// app.use(cors());
-// app.use(cors({
-//   origin: 'http://localhost:4859' // 👈 ตรงกับ frontend
-// }));
-// app.use(express.json()); // แปลง JSON จาก request body
-// app.use(express.urlencoded({ extended: true })); // สำหรับ form-url-encoded (เช่นจาก HTML form)
-
-
-
-
-// app.use('/auth', authRoutes);
-
-// app.use('/travels', travelRoutes);
-
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
