@@ -43,41 +43,50 @@ exports.loginUser = async (req, res) => {
 const bcrypt = require('bcrypt');
 
 exports.registerUser = async (req, res) => {
-    const { userName, userEmail, userPassword } = req.body;
-    const userImage = req.file ? req.file.path : ''; 
-  
-    try {
-      const existingUser = await prisma.user_tb.findUnique({
-        where: { userEmail: userEmail }, // ✅ ได้เมื่อ userEmail เป็น @unique
-      });
-  
-      if (existingUser) {
-        return res.status(400).json({ message: 'Email already exists' });
-      }
-  
-      const newUser = await prisma.user_tb.create({
-        data: {
-          userName,
-          userEmail,
-          userPassword,
-          userImage,
-        },
-      });
-  
-      res.status(201).json({
-        message: 'User registered successfully',
-        user: {
-          userId: newUser.userId,
-          userName: newUser.userName,
-          userEmail: newUser.userEmail,
-          userImage: newUser.userImage,
-        },
-      });
-  
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Registration failed' });
+  console.log("🔥 Register process started");
+
+  // 🔍 Log ข้อมูลที่ส่งมาจาก Frontend
+  console.log("📩 Request body:", req.body);
+  console.log("🖼 Uploaded file info:", req.file);
+
+  const { userName, userEmail, userPassword } = req.body;
+  const userImage = req.file ? req.file.path : ''; // ใช้ path ถ้าเก็บจาก Cloudinary
+
+  try {
+    // 🔍 ตรวจสอบว่ามี user ซ้ำในระบบหรือไม่
+    const existingUser = await prisma.user_tb.findUnique({
+      where: { userEmail: userEmail }, //userEmail ตั้ง unique ใน Prisma schema
+    });
+
+    if (existingUser) {
+      console.log("⚠️ Email already exists:", userEmail);
+      return res.status(400).json({ message: 'Email already exists' });
     }
-  };
-  
-  
+
+    // สร้าง user ใหม่ในฐานข้อมูล
+    const newUser = await prisma.user_tb.create({
+      data: {
+        userName,
+        userEmail,
+        userPassword,
+        userImage,
+      },
+    });
+
+    console.log("✅ New user registered:", newUser);
+
+    res.status(201).json({
+      message: 'User registered successfully',
+      user: {
+        userId: newUser.userId,
+        userName: newUser.userName,
+        userEmail: newUser.userEmail,
+        userImage: newUser.userImage,
+      },
+    });
+
+  } catch (err) {
+    console.error("❌ Error in registerUser:", err);
+    res.status(500).json({ message: 'Registration failed', error: err.message });
+  }
+};
